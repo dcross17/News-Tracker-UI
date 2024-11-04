@@ -1,0 +1,148 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 90vh;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #ecfff1;
+  color: #208869;
+  margin: 0 0.1em;
+  padding: 0.3em;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+tbody tr:nth-child(even) {
+  background-color: aliceblue;
+}
+
+td,
+th {
+  padding: 0.5em;
+}
+
+tr th {
+  background-color: teal;
+  color: white;
+  min-width: 150px;
+  padding: 0.2em;
+  border: 0.25px solid #1c1c1c;
+}
+
+tr td {
+  color: #02426e;
+  border: 1px solid;
+  padding: 0.4em;
+}
+
+table {
+  border-collapse: collapse;
+}
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.exercise-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: baseline;
+}
+
+label {
+  text-align: right;
+}
+
+input,
+select {
+  max-width: 135px;
+}
+
+form {
+  margin: 0 auto;
+  border: none;
+}
+
+fieldset {
+  border-radius: 0.6em;
+  background-color: teal;
+  color: white;
+  border: none;
+}
+
+legend {
+  position: relative;
+  top: 12px;
+}
+
+input,
+select {
+  margin: 1em;
+  padding: 0.5em;
+  font-family: "Arial", sans-serif;
+}
+
+select {
+  padding: 0.5em;
+}
+
+input[type="number"],
+#units {
+  width: 5em;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Arial", sans-serif;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
