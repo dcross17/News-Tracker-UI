@@ -8,25 +8,19 @@ import LandingPage from "./LandingPage";
 import {useNavigate} from "react-router-dom";
 import LoginNav from "../components/LoginNav";
 
-export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLoggedIn(true);
-    }
-  }, []);
+export default function Home({loggedIn, setLoggedIn, user, setUser}) {
   
   return (
     <div className="homepage">
       <h1>News Tracker Homepage</h1>
             {loggedIn ? (
               <>
-                <LoginNav setLoggedIn={setLoggedIn} />
+                
+                <LoginNav setLoggedIn={setLoggedIn} setUser = {setUser} />
                 <News />
               </>
             ) : (
-              <LandingPage setLoggedIn={setLoggedIn} />
+              <LandingPage setLoggedIn={setLoggedIn} setUser = {setUser} />
             )}
     </div>
   );

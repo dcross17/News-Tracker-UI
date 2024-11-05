@@ -6,6 +6,7 @@ import axios from "axios";
 function News() {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [query, setQuery] = useState("");
     const [error, setError] = useState(null);
 
 

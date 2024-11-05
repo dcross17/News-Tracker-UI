@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-export default function Login() {
+export default function Login({ setLoggedIn, setUser }) {
     const [identifier, setIdentifier] = useState(''); // Updated variable name
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -12,15 +12,18 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const response = await axios.get(`http://localhost:3000/user/${identifier}/${password}`, 
+            const response = await axios.get(`http://localhost:3000/users/${identifier}/${password}`, 
                 { identifier, password },
                 { headers: { 'Content-Type': 'application/json' } }
             );
             
             setMessage(response.data.message);
             if (response.status === 200) {
-                const {token} = response.data;
+                const {token, user} = response.data;
                 localStorage.setItem('token', token);
+                sessionStorage.setItem('user', JSON.stringify(user));
+                setLoggedIn(true);
+                setUser(user);
                 navigate('/'); // Redirect to homepage on successful login
             }
         } catch (err) {

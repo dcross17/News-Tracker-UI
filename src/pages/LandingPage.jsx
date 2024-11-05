@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 
-function LandingPage({setLoggedIn}) {
+function LandingPage({setLoggedIn, setUser}) {
   return (
     <div>
       <h1>Welcome to the News Tracker!</h1>
