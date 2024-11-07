@@ -21,9 +21,6 @@ export default function App() {
 
   return (
     <>
-        <h1 className="text-3xl">
-        News Tracker
-        </h1>
         <Router>
         <Routes>
           <Route path="/" element={<Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />} />

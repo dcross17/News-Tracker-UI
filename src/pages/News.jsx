@@ -3,7 +3,7 @@ import apiData from "../public/apiData";
 import Article from "../components/Article";
 import axios from "axios";
 
-function News() {
+function News({user}) {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [query, setQuery] = useState("");
@@ -34,7 +34,9 @@ function News() {
 
   return ( 
     <>
-        <h1>Your news</h1>
+        <h1>
+        {user.name}'s News Feed
+        </h1>
         <div>
         <ul className = "grid grid-cols-4 gap-4">
         {news.slice(0,20).map((article, index) => (

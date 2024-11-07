@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Signup from "./Signup";
 import News from "./News";
+import Header from "../components/Header";
 import LandingPage from "./LandingPage";
 import {useNavigate} from "react-router-dom";
 import LoginNav from "../components/LoginNav";
@@ -11,17 +12,15 @@ import LoginNav from "../components/LoginNav";
 export default function Home({loggedIn, setLoggedIn, user, setUser}) {
   
   return (
-    <div className="homepage">
-      <h1>News Tracker Homepage</h1>
-            {loggedIn ? (
-              <>
-                
-                <LoginNav setLoggedIn={setLoggedIn} setUser = {setUser} />
-                <News />
-              </>
-            ) : (
-              <LandingPage setLoggedIn={setLoggedIn} setUser = {setUser} />
-            )}
-    </div>
+    <>
+      <Header setLoggedIn = {setLoggedIn} loggedIn={loggedIn} setUser={setUser}  user={user} />
+      <div className="homepage">
+              {loggedIn ? (
+                <News user = {user}/>
+              ) : (
+                <LandingPage setLoggedIn = {setLoggedIn} loggedIn={loggedIn} setUser={setUser}  user={user} />
+              )}
+      </div>
+    </>
   );
 } 
