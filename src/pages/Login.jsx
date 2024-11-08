@@ -33,24 +33,38 @@ export default function Login({ setLoggedIn, setUser }) {
     }
 
     return (
-        <div className='login'>
-            <h1>Login Page</h1>
-
-            <form action='POST'>
-                <input 
-                    type="text" 
-                    onChange={(e) => setIdentifier(e.target.value)} 
-                    placeholder="Username or Email" 
-                />
-                <input 
-                    type="password" 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    placeholder="Password" 
-                />
-                <input type="submit" value="Login" onClick={submit} />
-            </form>
-
-            {message && <p>{message}</p>}
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+                <h1 className="text-2xl font-bold text-center">Login Page</h1>
+                <form className="space-y-4" onSubmit={submit}>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Username or Email</label>
+                        <input 
+                            type="text" 
+                            onChange={(e) => setIdentifier(e.target.value)} 
+                            placeholder="Username or Email" 
+                            className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                        <input 
+                            type="password" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            placeholder="Password" 
+                            className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+                        />
+                    </div>
+                    <div>
+                        <input 
+                            type="submit" 
+                            value="Login" 
+                            className="w-full px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
+                        />
+                    </div>
+                </form>
+                {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+            </div>
         </div>
     );
 }

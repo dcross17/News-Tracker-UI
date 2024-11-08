@@ -6,6 +6,7 @@ import Signup from "./Signup";
 import News from "./News";
 import Header from "../components/Header";
 import LandingPage from "./LandingPage";
+import Preferences from "./Preferences";
 import {useNavigate} from "react-router-dom";
 import LoginNav from "../components/LoginNav";
 

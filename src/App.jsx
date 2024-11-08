@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Preferences from './pages/Preferences';
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/" element={<Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />} />
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />} />
           <Route path="/signup" element={<Signup setLoggedIn={setLoggedIn} setUser={setUser} />} />
+          <Route path="/preferences" element={<Preferences loggedIn={loggedIn} user={user}  setUser={setUser} />} />
         </Routes>
        </Router> 
     </>
