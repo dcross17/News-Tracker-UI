@@ -3,7 +3,7 @@ import axios from 'axios';
 import Article from '../components/Article';
 import apiData from '../public/apiData';
 
-function News({ user }) {
+function News({ user, setUser }) {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -17,18 +17,29 @@ function News({ user }) {
         setActiveTab(category);
     };
 
+    const handleReadLater = (article) => {
+        setReadLater([...readLater, article]);
+    };
+
+    const handleFavorite = (article) => {
+        setFavorites([...favorites, article]);
+    };
+
     useEffect(() => {
         setLoading(true);
         console.log(user);
-        axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=39415c8b1d3f435d8ac0df3c0f5365a9`)
+        setNews(apiData);
+        setLoading(false);
+        /*axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=39415c8b1d3f435d8ac0df3c0f5365a9`)
             .then((response) => {
+                console.log(response.data.articles);
                 setNews(response.data.articles);
                 setLoading(false);
             })
             .catch((error) => {
                 setError(error);
                 setLoading(false);
-            });
+            });*/
     }, [category]);
 
     if (loading) return <div>Loading...</div>;
@@ -52,7 +63,7 @@ function News({ user }) {
                 <ul className="grid grid-cols-4 gap-4">
                     {news.slice(0, 20).map((article, index) => (
                         (article.content !== null && article.content !== undefined && article.content !== "[Removed]") ? (
-                            <Article key={index} article={article} />
+                            <Article key={index} article={article} setUser = {setUser} user = {user} />
                         ) : null
                     ))}
                 </ul>

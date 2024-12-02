@@ -17,7 +17,7 @@ export default function Home({loggedIn, setLoggedIn, user, setUser}) {
       <Header setLoggedIn = {setLoggedIn} loggedIn={loggedIn} setUser={setUser}  user={user} />
       <div className="homepage">
               {loggedIn ? (
-                <News user = {user}/>
+                <News setUser = {setUser} user = {user}/>
               ) : (
                 <LandingPage setLoggedIn = {setLoggedIn} loggedIn={loggedIn} setUser={setUser}  user={user} />
               )}
