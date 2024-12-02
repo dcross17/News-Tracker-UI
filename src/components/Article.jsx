@@ -1,36 +1,72 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Article({ article, setUser, user }) {
     const [favorites, setFavorites] = useState(user.favorites || []); // Initial favorites
     const [isFavorite, setIsFavorite] = useState(false); // Tracks if the current article is favorited
 
     // Check if the current article is in favorites
-    const checkFavorite = () => {
+    useEffect(() => {
+        // Ensure favorites state is up-to-date with the user prop
+        setFavorites(user.favorites || []);
+    }, [user]); // Re-run whenever the user state changes
+
+    useEffect(() => {
+        // Update the isFavorite state based on the current article
         setIsFavorite(favorites.includes(article.url));
-    };
-
-    // Runs whenever favorites or article changes
-    useEffect(() => {
-        checkFavorite();
-    }, [favorites, article]);
-
-    // Debugging favorites state
-    useEffect(() => {
-        console.log('Favorites updated:', favorites);
-    }, [favorites]);
+    }, [favorites, article]); // Re-run whenever favorites or article changes
 
     const handleFavorite = () => {
-        setFavorites((prevFavorites) => {
-            if (prevFavorites.includes(article.url)) {
-                console.log(`Removing article: ${article.url}`);
-                return prevFavorites.filter((fav) => fav !== article.url);
-            } else {
-                console.log(favorites)
-                console.log(`Adding article: ${article.url}`);
-                return [...prevFavorites, article.url];
-            }
-        });
+        const updatedFavorites = favorites.includes(article.url)
+            ? favorites.filter(fav => fav !== article.url) // Remove article if already favorited
+            : [...favorites, article.url]; // Add article to favorites
+
+        // Update parent state (user) with new favorites list
+        const newUser = { ...user, favorites: updatedFavorites };
+        console.log(newUser);
+        setUser(newUser); // This should update the user state in the parent
+
+        // Update the user's favorites on the backend
+        updateFavorites(updatedFavorites);
+
+        storeArticle(article);
+
+        // Update local state
+        setFavorites(updatedFavorites); // Ensure the favorites list is updated locally as well
     };
+
+    const storeArticle = async (article) => {
+        // make a request to article_db to store the article
+        // we only want to store articles that have been faovrited or read later by users
+        // we have limited storage so we can't store all articles
+        console.log("Storing article in database:", article);
+
+        try {
+            const response = await axios.post(`http://localhost:3001/articles`, 
+                article ,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            console.log("Article stored in database:", response);
+        } catch (error) {
+            console.error("Error storing article:", error);
+        }
+    }
+
+    const updateFavorites = async (updatedFavorites) => {
+        // make a request to the server to add the article to the user's favorites
+        // Make an API call to update the user's favorites on the backend
+        try {
+            const response = await axios.put(`http://localhost:3000/users/${user._id}`, 
+                { favorites: updatedFavorites },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            console.log("User favorites updated on backend:", response.data.user);
+            setUser(response.data.user); // Ensure the parent state is updated with the new user data
+            sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Update session storage
+        } catch (error) {
+            console.error("Error updating favorites:", error);
+        }
+    }
 
     return (
         <li className="article-item__article">
