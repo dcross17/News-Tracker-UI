@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaSearch } from 'react-icons/fa';
 import {Link} from 'react-router-dom';
 import { Tooltip } from 'react-tooltip'
 import Preferences from '../pages/Preferences';
@@ -22,6 +22,25 @@ function Header({ setLoggedIn, loggedIn, setUser, user }) {
                 <ul className="flex space-x-4 items-center">
                     {loggedIn ? (
                         <>
+                            <li>
+                                <div className='relative'>
+                                    {/* Search input */}
+                                    <input
+                                    type="search"
+                                    placeholder="Search for articles..."
+                                    className="w-full py-2 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                    {/* Search button */}
+                                    <button
+                                    type="submit"
+                                    className="absolute right-2 top-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    >
+                                    <FaSearch />
+                                    </button>
+
+                                </div>
+                                
+                            </li>
                             <li>
                                 <button className='p-2'><a href="/" className="hover:underline" onClick={logOut}>Logout</a></button>
                             </li>
