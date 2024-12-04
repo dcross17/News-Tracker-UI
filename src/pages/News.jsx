@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Article from '../components/Article';
 import apiData from '../public/apiData';
@@ -11,26 +12,23 @@ function News({ user, setUser }) {
     const [category, setCategory] = useState(user.preferences.length > 0 ? user.preferences[0] : categories[0]);
     const [activeTab, setActiveTab] = useState(category);
     const [userPreferences, setUserPreferences] = useState(user.preferences.length > 0 ? user.preferences : ['General']);
+    const navigate = useNavigate();
 
     const handleTabClick = (category) => {
         setCategory(category);
         setActiveTab(category);
     };
 
-    const handleReadLater = (article) => {
-        setReadLater([...readLater, article]);
-    };
-
-    const handleFavorite = (article) => {
-        setFavorites([...favorites, article]);
+    const handleFavoritesClick = (article) => {
+        navigate('/favorites'); // Redirect to the favorites page
     };
 
     useEffect(() => {
         setLoading(true);
         console.log(user);
-        setNews(apiData);
-        setLoading(false);
-        /*axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=39415c8b1d3f435d8ac0df3c0f5365a9`)
+        //setNews(apiData);
+        //setLoading(false);
+        axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=39415c8b1d3f435d8ac0df3c0f5365a9`)
             .then((response) => {
                 console.log(response.data.articles);
                 setNews(response.data.articles);
@@ -39,7 +37,7 @@ function News({ user, setUser }) {
             .catch((error) => {
                 setError(error);
                 setLoading(false);
-            });*/
+            });
     }, [category]);
 
     if (loading) return <div>Loading...</div>;
@@ -59,6 +57,7 @@ function News({ user, setUser }) {
                             {pref}
                         </li>
                     ))}
+                    {user.favorites.length > 0 ? <li className='tab' onClick={() => handleFavoritesClick('Favorites')}>Favorites</li> : null}
                 </ul>
                 <ul className="grid grid-cols-4 gap-4">
                     {news.slice(0, 20).map((article, index) => (
