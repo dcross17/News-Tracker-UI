@@ -4,6 +4,7 @@ import axios from 'axios';
 function Article({ article, setUser, user }) {
     const [favorites, setFavorites] = useState(user.favorites || []); // Initial favorites
     const [isFavorite, setIsFavorite] = useState(false); // Tracks if the current article is favorited
+    const [sentiment, setSentiment] = useState('neutral'); // Tracks the sentiment of the article
 
     // Check if the current article is in favorites
     useEffect(() => {
@@ -15,6 +16,24 @@ function Article({ article, setUser, user }) {
         // Update the isFavorite state based on the current article
         setIsFavorite(favorites.includes(article.url));
     }, [favorites, article]); // Re-run whenever favorites or article changes
+
+    useEffect(() => {
+
+        getArticleSentiment(article).then((sentiment) => {
+            setSentiment(sentiment);
+        });
+    });
+
+    const getSentimentColor = () => {
+        switch (sentiment) {
+            case 'positive':
+                return 'bg-green-100';
+            case 'negative':
+                return 'bg-red-100';
+            default:
+                return 'bg-gray-100';
+        }
+    }
 
     const handleFavorite = () => {
         const updatedFavorites = favorites.includes(article.url)
@@ -34,6 +53,24 @@ function Article({ article, setUser, user }) {
         // Update local state
         setFavorites(updatedFavorites); // Ensure the favorites list is updated locally as well
     };
+
+    const getArticleSentiment = async (article) => {
+        // make a request to Sentiment Anaylsis microservice to get the sentiment of the article
+        console.log("Getting sentiment for article:", article);
+
+        try {
+            const response = await axios.post(`http://localhost:3002/analyze`, 
+                { text: article.content || article.description || article.title },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            console.log("Sentiment for article:", response.data.sentiment);
+            return response.data.sentiment;
+        }
+        catch (error) {
+            console.error("Error getting sentiment:", error);
+            return 'neutral';
+        }
+    }
 
     const storeArticle = async (article) => {
         // make a request to article_db to store the article
@@ -70,7 +107,7 @@ function Article({ article, setUser, user }) {
 
     return (
         <li className="article-item__article">
-            <div className="h-full bg-white rounded-lg shadow-lg p-4">
+            <div className={`h-full rounded-lg shadow-lg p-4 ${getSentimentColor()}`}>
                 <article className="article-card">
                     <h2 className="text-xl font-bold">{article.title}</h2>
                     <img
@@ -81,6 +118,7 @@ function Article({ article, setUser, user }) {
                     <div className="flex justify-between items-center mt-4">
                         <time className="text-gray-600">{new Date(article.publishedAt).toDateString()}</time>
                     </div>
+
                     <p className="text-gray-700">{article.description}</p>
                     <a
                         href={article.url}
