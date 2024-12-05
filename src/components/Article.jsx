@@ -42,7 +42,6 @@ function Article({ article, setUser, user }) {
 
         // Update parent state (user) with new favorites list
         const newUser = { ...user, favorites: updatedFavorites };
-        console.log(newUser);
         setUser(newUser); // This should update the user state in the parent
 
         // Update the user's favorites on the backend
@@ -56,14 +55,11 @@ function Article({ article, setUser, user }) {
 
     const getArticleSentiment = async (article) => {
         // make a request to Sentiment Anaylsis microservice to get the sentiment of the article
-        console.log("Getting sentiment for article:", article);
-
         try {
             const response = await axios.post(`http://localhost:3002/analyze`, 
                 { text: article.content || article.description || article.title },
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            console.log("Sentiment for article:", response.data.sentiment);
             return response.data.sentiment;
         }
         catch (error) {
@@ -97,7 +93,6 @@ function Article({ article, setUser, user }) {
                 { favorites: updatedFavorites },
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            console.log("User favorites updated on backend:", response.data.user);
             setUser(response.data.user); // Ensure the parent state is updated with the new user data
             sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Update session storage
         } catch (error) {

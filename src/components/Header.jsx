@@ -1,11 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { FaInfoCircle, FaSearch } from 'react-icons/fa';
-import {Link} from 'react-router-dom';
+import {useNavigate, useLocation, Link} from 'react-router-dom';
 import { Tooltip } from 'react-tooltip'
 import Preferences from '../pages/Preferences';
 
 function Header({ setLoggedIn, loggedIn, setUser, user }) {
+
+    const [keyword, setKeyword] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const logOut = () => {
         localStorage.removeItem("token");
@@ -13,6 +17,14 @@ function Header({ setLoggedIn, loggedIn, setUser, user }) {
         setLoggedIn(false);
         setUser({});
         navigate("/");
+    }
+
+    const handleKeywordChange = (e) => {
+        setKeyword(e);
+    }
+
+    const handleSearch = (keyword) => {
+        navigate(`/search?keyword=${keyword}`);
     }
 
     return (
@@ -29,11 +41,13 @@ function Header({ setLoggedIn, loggedIn, setUser, user }) {
                                     type="search"
                                     placeholder="Search for articles..."
                                     className="w-full py-2 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    value={keyword} onChange = {(e) => handleKeywordChange(e.target.value)}
                                     />
                                     {/* Search button */}
                                     <button
                                     type="submit"
                                     className="absolute right-2 top-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    onClick={() => handleSearch(keyword)}
                                     >
                                     <FaSearch />
                                     </button>
@@ -41,6 +55,7 @@ function Header({ setLoggedIn, loggedIn, setUser, user }) {
                                 </div>
                                 
                             </li>
+                            
                             <li>
                                 <button className='p-2'><a href="/" className="hover:underline" onClick={logOut}>Logout</a></button>
                             </li>

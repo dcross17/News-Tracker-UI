@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Favorites from './pages/Favorites';
+import Search from './pages/Search';
 import Preferences from './pages/Preferences';
 
 export default function App() {
@@ -16,7 +17,6 @@ export default function App() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      console.log("User is logged in", user.name);
       setLoggedIn(true);
     }
   }, []);
@@ -29,6 +29,7 @@ export default function App() {
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />} />
           <Route path="/signup" element={<Signup setLoggedIn={setLoggedIn} setUser={setUser} />} />
           <Route path="/favorites" element={<Favorites loggedIn={loggedIn} user={user}  setUser={setUser} />} />
+          <Route path="/search" element = {<Search loggedIn={loggedIn} user = {user} setUser = {setUser} />} />
           <Route path="/preferences" element={<Preferences loggedIn={loggedIn} user={user}  setUser={setUser} />} />
         </Routes>
        </Router> 
