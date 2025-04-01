@@ -31,7 +31,7 @@ function Search({loggedIn, user, setUser }) {
             
             //setNews(apiData);
             //setLoading(false);
-            axios.get(`http://localhost:3003/search?keyword=${keyword}`)
+            axios.get(`http://localhost:3003/search?query=${keyword}`)
                 .then((response) => {
                     setSearchResults(response.data.articles);
                     setLoading(false);
